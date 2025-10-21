@@ -2,8 +2,14 @@ import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import ComposeDrawer from "./components/ComposeDrawer";
+
+// Folder components
 import Inbox from "./components/Inbox";
 import Sent from "./components/Sent";
+import Drafts from "./components/Drafts";
+import Starred from "./components/Starred";
+import Spam from "./components/Spam";
+import Trash from "./components/Trash";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
@@ -34,6 +40,28 @@ function App() {
     console.log("Searching for:", query);
   };
 
+  // Render the active folder component
+  const renderActiveView = () => {
+    switch (activeView) {
+      case "inbox":
+        return <Inbox />;
+      case "sent":
+        return <Sent />;
+      case "drafts":
+        return <Drafts />;
+      case "starred":
+        return <Starred />;
+      case "spam":
+        return <Spam />;
+      case "trash":
+        return <Trash />;
+      case "settings":
+        return <p className="text-gray-500">Settings page coming soon...</p>;
+      default:
+        return <Inbox />;
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-base-200">
       {/* Navbar */}
@@ -46,7 +74,6 @@ function App() {
 
       {/* Sidebar + Main content */}
       <div className="flex flex-1">
-        {/* Sidebar */}
         <Sidebar
           isOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
@@ -56,13 +83,7 @@ function App() {
 
         {/* Main content */}
         <main className="flex-1 p-4 md:p-6 overflow-y-auto transition-all duration-300">
-          {activeView === "inbox" && <Inbox />}
-          {activeView === "sent" && <Sent />}
-          {activeView === "drafts" && <p>Drafts folder coming soon...</p>}
-          {activeView === "starred" && <p>Starred folder coming soon...</p>}
-          {activeView === "spam" && <p>Spam folder coming soon...</p>}
-          {activeView === "trash" && <p>Trash folder coming soon...</p>}
-          {activeView === "settings" && <p>Settings page coming soon...</p>}
+          {renderActiveView()}
         </main>
       </div>
 
