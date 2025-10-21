@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import ComposeDrawer from "./Components/ComposeDrawer";
-
-
+import ComposeDrawer from "./components/ComposeDrawer";
+import Inbox from "./components/Inbox";
+import Sent from "./components/Sent";
 
 function App() {
-  // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Compose drawer state
   const [isComposeOpen, setIsComposeOpen] = useState(false);
+  const [activeView, setActiveView] = useState("inbox");
 
-  // Window resize handler
+  // Handle window resize
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
@@ -24,16 +23,13 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Toggle sidebar (mobile only)
   const toggleSidebar = () => {
     if (windowWidth < 1024) setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Compose drawer handlers
   const openCompose = () => setIsComposeOpen(true);
   const closeCompose = () => setIsComposeOpen(false);
 
-  // Search handler
   const handleSearch = (query) => {
     console.log("Searching for:", query);
   };
@@ -48,26 +44,25 @@ function App() {
         windowWidth={windowWidth}
       />
 
-      <div className="flex flex-1 relative">
+      {/* Sidebar + Main content */}
+      <div className="flex flex-1">
         {/* Sidebar */}
         <Sidebar
           isOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
           onComposeClick={openCompose}
+          setActiveView={setActiveView}
         />
 
         {/* Main content */}
-        <main
-          className={`flex-1 p-4 md:p-6 overflow-y-auto transition-all duration-300 ${
-            isSidebarOpen && windowWidth >= 1024 ? "lg:ml-64" : ""
-          }`}
-        >
-          <h1 className="text-3xl font-bold mb-4 text-primary">
-            Welcome to MailSphere 📧
-          </h1>
-          <p className="text-base-content/70">
-            Manage your emails — Inbox, Sent, Drafts, and compose new messages easily.
-          </p>
+        <main className="flex-1 p-4 md:p-6 overflow-y-auto transition-all duration-300">
+          {activeView === "inbox" && <Inbox />}
+          {activeView === "sent" && <Sent />}
+          {activeView === "drafts" && <p>Drafts folder coming soon...</p>}
+          {activeView === "starred" && <p>Starred folder coming soon...</p>}
+          {activeView === "spam" && <p>Spam folder coming soon...</p>}
+          {activeView === "trash" && <p>Trash folder coming soon...</p>}
+          {activeView === "settings" && <p>Settings page coming soon...</p>}
         </main>
       </div>
 
