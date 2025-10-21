@@ -1,52 +1,62 @@
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import ComposeDrawer from "./Components/ComposeDrawer";
+
+
 
 function App() {
+  // Sidebar state
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 1024);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Update window width
+  // Compose drawer state
+  const [isComposeOpen, setIsComposeOpen] = useState(false);
+
+  // Window resize handler
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      if (window.innerWidth >= 1024) setIsSidebarOpen(true);
+      else setIsSidebarOpen(false);
+    };
     window.addEventListener("resize", handleResize);
-
-    // Update sidebar automatically
-    if (window.innerWidth >= 1024) setIsSidebarOpen(true);
-    else setIsSidebarOpen(false);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Toggle sidebar (only for mobile/tablet)
+  // Toggle sidebar (mobile only)
   const toggleSidebar = () => {
     if (windowWidth < 1024) setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleCompose = () => {
-    alert("📧 Compose Mail (coming soon!)");
-  };
+  // Compose drawer handlers
+  const openCompose = () => setIsComposeOpen(true);
+  const closeCompose = () => setIsComposeOpen(false);
 
+  // Search handler
   const handleSearch = (query) => {
     console.log("Searching for:", query);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-base-200">
+      {/* Navbar */}
       <Navbar
         onMenuClick={toggleSidebar}
         onSearch={handleSearch}
         isSidebarOpen={isSidebarOpen}
-        windowWidth={windowWidth} // pass width to Navbar
+        windowWidth={windowWidth}
       />
 
       <div className="flex flex-1 relative">
+        {/* Sidebar */}
         <Sidebar
           isOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
-          onComposeClick={handleCompose}
+          onComposeClick={openCompose}
         />
 
+        {/* Main content */}
         <main
           className={`flex-1 p-4 md:p-6 overflow-y-auto transition-all duration-300 ${
             isSidebarOpen && windowWidth >= 1024 ? "lg:ml-64" : ""
@@ -64,12 +74,15 @@ function App() {
       {/* Mobile Compose Button */}
       {windowWidth < 1024 && (
         <button
-          onClick={handleCompose}
+          onClick={openCompose}
           className="btn btn-accent rounded-full w-14 h-14 fixed bottom-6 right-6 shadow-lg flex items-center justify-center text-white text-3xl lg:hidden"
         >
           +
         </button>
       )}
+
+      {/* Compose Drawer */}
+      <ComposeDrawer isOpen={isComposeOpen} onClose={closeCompose} />
     </div>
   );
 }
