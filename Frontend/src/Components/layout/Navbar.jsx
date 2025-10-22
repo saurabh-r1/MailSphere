@@ -1,5 +1,5 @@
 import { useState } from "react";
-import MailSphereLogo from "../assets/mailSpherelogo.png"; // adjust path as needed
+import MailSphereLogo from "../../assets/mailSpherelogo.png";
 
 function Navbar({ onMenuClick, onSearch, isSidebarOpen, windowWidth }) {
   const [query, setQuery] = useState("");

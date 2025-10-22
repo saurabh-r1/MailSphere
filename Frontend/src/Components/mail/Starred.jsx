@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Star } from "lucide-react";
-import EmailDetail from "./mail/EmailDetail";
+import EmailDetail from "./EmailDetail";
 
 const Starred = () => {
   const [selectedEmail, setSelectedEmail] = useState(null);

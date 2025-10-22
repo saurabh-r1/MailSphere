@@ -4,10 +4,10 @@ import Sidebar from "./Components/layout/Sidebar";
 import ComposeDrawer from "./Components/mail/ComposeDrawer";
 
 // Folder components
-import Inbox from "./components/Inbox";
-import Sent from "./components/Sent";
+import Inbox from "./Components/mail/Inbox";
+import Sent from "./Components/mail/Sent";
 import Drafts from "./Components/mail/Drafts";
-import Starred from "./components/Starred";
+import Starred from "./Components/mail/Starred";
 import Spam from "./Components/mail/Spam";
 import Trash from "./Components/mail/Trash";
 import EmailDetail from "./Components/mail/EmailDetail";

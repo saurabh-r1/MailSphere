@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Send } from "lucide-react";
-import EmailDetail from "./mail/EmailDetail";
+import EmailDetail from "./EmailDetail";
 
 const Sent = () => {
   const [selectedEmail, setSelectedEmail] = useState(null);
