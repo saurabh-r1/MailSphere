@@ -1,10 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import AppRouter from "./Router.jsx";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import AppRouter from "./router/Router";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+import { Toaster } from "react-hot-toast";
+import GlobalLoader from "./components/common/GlobalLoader";  // ✅
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AppRouter />
-  </React.StrictMode>
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <Provider store={store}>
+      <AppRouter />
+      <GlobalLoader />   {/* ✅ this will show loader globally */}
+      <Toaster position="top-right" reverseOrder={false} />
+    </Provider>
+  </StrictMode>
 );

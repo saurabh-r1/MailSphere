@@ -1,25 +1,26 @@
 import { useState } from "react";
-import MailSphereLogo from "../../assets/mailSpherelogo.png";
+import MailSphereLogo from "../../assets/mailSphereLogo.png"; // ✅ check filename carefully (case-sensitive)
 
 function Navbar({ onMenuClick, onSearch, isSidebarOpen, windowWidth }) {
   const [query, setQuery] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
-    onSearch(query);
+    if (onSearch) onSearch(query);
   };
 
   const showMiddleAndRight = !isSidebarOpen || windowWidth >= 1024;
 
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 h-14 px-3 py-2 flex justify-between items-center">
-      {/* Left section: Hamburger + Logo + Brand */}
+      {/* 🔹 LEFT SECTION: Menu + Logo + MailSphere */}
       <div className="flex items-center gap-2 flex-shrink-0">
+        {/* Hamburger menu button (visible on smaller screens) */}
         {windowWidth < 1024 && (
           <button
             aria-label="Toggle sidebar"
             onClick={onMenuClick}
-            className="btn btn-ghost btn-square flex-shrink-0"
+            className="btn btn-ghost btn-square flex-shrink-0 hover:bg-base-200 transition"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -37,27 +38,30 @@ function Navbar({ onMenuClick, onSearch, isSidebarOpen, windowWidth }) {
           </button>
         )}
 
-        {/* Logo + Brand */}
+        {/* Logo + Text */}
         <div
-          className={ `flex items-center gap-2 ${
+          className={`flex items-center gap-2 transition-all duration-300 ${
             windowWidth >= 1024 || isSidebarOpen ? "inline-flex" : "hidden"
           }`}
         >
-          <img src={MailSphereLogo} alt="MailSphere Logo" className="w-8 h-8" />
-          <span
-  className="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent select-none"
->
-  MailSphere
-</span>
-
+          {/* ✅ LOGO */}
+          <img
+            src={MailSphereLogo}
+            alt="MailSphere Logo"
+            className="w-8 h-8 object-contain hover:scale-105 transition-transform"
+          />
+          {/* ✅ GRADIENT TEXT */}
+          <span className="text-xl sm:text-2xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent select-none">
+            MailSphere
+          </span>
         </div>
       </div>
 
-      {/* Middle: Search bar */}
+      {/* 🔹 MIDDLE SECTION: SEARCH BAR */}
       {showMiddleAndRight && (
         <form
           onSubmit={handleSearch}
-          className="flex items-center mx-4 bg-base-200 rounded-full px-3 py-1 flex-1 sm:flex-[0.75] md:flex-[0.5] lg:flex-[0.33]"
+          className="flex items-center mx-4 bg-base-200 rounded-full px-3 py-1 flex-1 sm:flex-[0.75] md:flex-[0.5] lg:flex-[0.33] shadow-inner focus-within:ring-2 focus-within:ring-primary transition-all"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -83,17 +87,21 @@ function Navbar({ onMenuClick, onSearch, isSidebarOpen, windowWidth }) {
         </form>
       )}
 
-      {/* Avatar Dropdown */}
+      {/* 🔹 RIGHT SECTION: AVATAR */}
       {showMiddleAndRight && (
         <div className="flex-shrink-0 dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-            <div className="w-9 rounded-full">
-             <img alt="User" src="https://i.pravatar.cc/100?img=47" />
+            <div className="w-9 rounded-full ring-2 ring-primary ring-offset-base-100 ring-offset-2">
+              <img
+                alt="User"
+                src="https://i.pravatar.cc/100?img=47"
+                className="object-cover"
+              />
             </div>
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-40 mt-2"
+            className="dropdown-content menu p-2 shadow-lg bg-base-100 rounded-box w-40 mt-2"
           >
             <li>
               <a>Profile</a>

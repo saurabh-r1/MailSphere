@@ -1,89 +1,73 @@
-function Sidebar({ isOpen, toggleSidebar, onComposeClick, setActiveView }) {
-  return (
-    <>
-      {/* Mobile overlay */}
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-30 lg:hidden"
-          onClick={toggleSidebar}
-        ></div>
-      )}
+import {
+  Inbox,
+  Send,
+  Star,
+  FileText,
+  Trash2,
+  AlertTriangle,
+  Settings,
+  Pencil,
+} from "lucide-react"; // icon set
+import { useNavigate } from "react-router-dom";
 
-      {/* Sidebar drawer */}
-      <aside
-        className={`fixed lg:static top-14 lg:top-0 left-0 h-[calc(100%-3.5rem)] lg:h-[100vh] bg-base-100 shadow-lg w-64 p-4 transition-transform duration-300 ease-in-out z-40
-          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-        `}
-      >
-        {/* Compose button (desktop only, balanced spacing) */}
+function Sidebar({ activeView, setActiveView, onComposeClick }) {
+  const navigate = useNavigate();
+
+  const menuItems = [
+    { key: "inbox", label: "Inbox", icon: <Inbox className="w-4 h-4" /> },
+    { key: "sent", label: "Sent", icon: <Send className="w-4 h-4" /> },
+    { key: "drafts", label: "Drafts", icon: <FileText className="w-4 h-4" /> },
+    { key: "starred", label: "Starred", icon: <Star className="w-4 h-4" /> },
+    { key: "spam", label: "Spam", icon: <AlertTriangle className="w-4 h-4" /> },
+    { key: "trash", label: "Trash", icon: <Trash2 className="w-4 h-4" /> },
+    { key: "settings", label: "Settings", icon: <Settings className="w-4 h-4" /> },
+  ];
+
+  return (
+    <aside className="bg-base-100 border-r border-base-200 w-60 flex flex-col h-full shadow-sm sticky left-0 top-0 z-40">
+      {/* 🔹 Compose Button */}
+      <div className="p-4 border-b border-base-200">
         <button
           onClick={onComposeClick}
-          className="btn btn-accent w-full mt-3 mb-4 hidden lg:block"
+          className="btn btn-primary w-full flex items-center gap-2 font-medium shadow-md hover:shadow-lg transition"
         >
-          + Compose
+          <Pencil className="w-4 h-4" />
+          Compose
         </button>
+      </div>
 
-        {/* Sidebar menu */}
-        <ul className="menu text-base-content space-y-1">
-          <li>
-            <button
-              onClick={() => setActiveView("inbox")}
-              className="font-semibold w-full text-left"
-            >
-              📥 Inbox
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveView("sent")}
-              className="w-full text-left"
-            >
-              📤 Sent
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveView("drafts")}
-              className="w-full text-left"
-            >
-              📝 Drafts
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveView("starred")}
-              className="w-full text-left"
-            >
-              ⭐ Starred
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveView("spam")}
-              className="w-full text-left"
-            >
-              🚫 Spam
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveView("trash")}
-              className="w-full text-left"
-            >
-              🗑 Trash
-            </button>
-          </li>
-          <li>
-            <button
-              onClick={() => setActiveView("settings")}
-              className="w-full text-left"
-            >
-              ⚙️ Settings
-            </button>
-          </li>
+      {/* 🔹 Navigation Items */}
+      <nav className="flex-1 overflow-y-auto py-3">
+        <ul className="menu text-sm px-2">
+          {menuItems.map((item) => {
+            const isActive = activeView === item.key;
+            return (
+              <li key={item.key} className="my-[2px]">
+                <button
+                  onClick={() => setActiveView(item.key)}
+                  className={`flex items-center gap-3 w-full rounded-lg px-3 py-2 font-medium transition-all duration-200 ${
+                    isActive
+                      ? "bg-gradient-to-r from-primary to-accent text-white shadow-md"
+                      : "hover:bg-base-200 text-gray-700 dark:text-gray-200"
+                  }`}
+                >
+                  {item.icon}
+                  <span>{item.label}</span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
-      </aside>
-    </>
+      </nav>
+
+      {/* 🔹 Footer */}
+      <div className="p-3 border-t border-base-200 text-center text-xs text-gray-500">
+        <span className="font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          MailSphere
+        </span>{" "}
+        © 2025
+      </div>
+    </aside>
   );
 }
 
