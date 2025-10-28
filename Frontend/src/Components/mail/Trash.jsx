@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Trash2 } from "lucide-react";
-import EmailDetail from "./EmailDetail";
+import EmailDetail from "./EmailDetails";
 
 const Trash = () => {
   const [selectedEmail, setSelectedEmail] = useState(null);

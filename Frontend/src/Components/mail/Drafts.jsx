@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FileText } from "lucide-react";
-import EmailDetail from "./EmailDetail";
+import EmailDetail from "./EmailDetails";
 
 const Drafts = () => {
   const [selectedEmail, setSelectedEmail] = useState(null);

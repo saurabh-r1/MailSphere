@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AlertCircle } from "lucide-react";
-import EmailDetail from "./EmailDetail";
+import EmailDetail from "./EmailDetails";
 
 const Spam = () => {
   const [selectedEmail, setSelectedEmail] = useState(null);

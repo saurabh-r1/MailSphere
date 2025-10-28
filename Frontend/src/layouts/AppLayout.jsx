@@ -1,23 +1,30 @@
-import { Outlet } from "react-router-dom";
+// inside AppLayout or App.jsx
+import React, { useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import Sidebar from "../components/layout/Sidebar";
 
-const AppLayout = () => {
-  return (
-    <div className="min-h-screen flex flex-col bg-base-200">
-      {/* Navbar */}
-      <Navbar />
+export default function AppLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 1024);
+  const user = { name: "Saurabh Kumar", email: "saurabh@example.com" };
 
-      {/* Sidebar + Page Content */}
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 p-6 overflow-y-auto transition-all duration-300">
-          {/* Nested Routes Render Here */}
-          <Outlet />
-        </main>
+  return (
+    <div className="min-h-screen flex">
+      <div className="flex-1 flex flex-col">
+        <Navbar
+          onMenuClick={() => setSidebarOpen((s) => !s)}
+          onSearch={(q) => console.log("search:", q)}
+          isSidebarOpen={sidebarOpen}
+          notificationsCount={4}
+          user={user}
+          onProfile={() => console.log("go to profile")}
+          onSettings={() => console.log("go to settings")}
+          onLogout={() => console.log("logout")}
+        />
+        <div className="flex flex-1">
+          <Sidebar open={sidebarOpen} />
+          <main className="flex-1 p-6">Main area</main>
+        </div>
       </div>
     </div>
   );
-};
-
-export default AppLayout;
+}
